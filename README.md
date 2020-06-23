@@ -27,7 +27,8 @@ pkg install git -y; git clone https://github.com/petkar/termux-downloader.git; c
 ```
 
 * Copy the given line, paste it into Termux and simply wait for the installation to complete.
-**NOTE : Provide necessary storage-permission if prompted**
+
+**NOTE : Provide necessary storage permission if prompted.**
 
 # Disclaimer
 
