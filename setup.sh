@@ -16,8 +16,8 @@ pip install -U spotdl
 
 
 #Youtube-dl configuration
-if [[ ! -d ./storage/downloads/Youtube ]]; then
-  mkdir /downloads/Youtube
+if [[ ! -d /data/data/com.termux/files/home/storage/downloads/Youtube ]]; then
+  mkdir /data/data/com.termux/files/home/storage/downloads/Youtube
 fi 
 #For config file
 if [[ ! -d ~/.config/youtube-dl ]]; then
