@@ -1,0 +1,90 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# Get the URL
+URL=$1
+echo "Opening URL"
+
+# Cheks if it's a Youtube or Spotify URL and downloads it
+if [[ $URL == *"open.spotify.com"* ]] ; then
+  echo "Spotify link detected"
+  if [[ $URL == *"playlist"* ]]; then
+    echo "Downloading Playlist"
+    spotdl --playlist "$URL" --write-to  "./.spotdl_playlist.txt"
+    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --list "./.spotdl_playlist.txt" -q best -i opus --output-ext mp3 --overwrite skip
+    rm -f "./.spotdl_playlist.txt"
+  fi
+  if [[ $URL == *"track"* ]]; then
+    echo "Downloading Song"
+    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --song "$URL" -q best -i opus --output-ext mp3
+  fi
+  if  [[ $URL == *"album"* ]]; then
+    echo "Downloading Album"
+    spotdl --album "$URL" --write-to  "./.spotdl_album.txt"
+    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --list "./.spotdl_album.txt" -q best -i opus --output-ext mp3 --overwrite skip
+    rm -f "./.spotdl_album.txt"
+  fi
+elif  [[ $URL == *"youtu.be"* || $URL == *"youtube.com"* ]]; then
+  formatvar=0
+  read -p $'What do you want to download \n(Select the number and press enter) \n 1) Video \n 2) Audio \n' formatvar
+  if [[ $formatvar == 1 ]]; then
+    echo "Enter Quality(144,240,360,480,720,1080):"
+    read qty
+    read -p $'Do you want to download the subtitles for this video? \n(Select the number and press enter) \n 1) Yes \n 2) No \n' formatvar
+    if [[ $formatvar == 1 ]]; then
+      echo 'Downloading Video with subtitles'
+      youtube-dl -c -i --no-mtime --all-subs "$URL" -o "/data/data/com.termux/files/home/storage/downloads/Youtube/%(title)s.%(ext)s" -f "best[height<="$qty"]"      
+    elif [[ $formatvar == 2 ]]; then
+      echo 'Downloading Video'
+      youtube-dl -c -i --no-mtime "$URL" -o "/data/data/com.termux/files/home/storage/downloads/Youtube/%(title)s.%(ext)s" -f "best[height<="$qty"]"
+    fi
+  elif [[ $formatvar == 2 ]]; then
+      echo 'downloading Audio'
+      youtube-dl -x --embed-thumbnail --audio-format mp3 -c -i "$URL" --cookies  ~/cookies -o "/data/data/com.termux/files/home/storage/downloads/Youtube/%(title)s.%(ext)s"
+  else
+    echo 'Default downloading Video'
+    youtube-dl -c -i --no-mtime "$URL" -o "/data/data/com.termux/files/home/storage/downloads/Youtube/%(title)s.%(ext)s"
+  fi
+
+# Runs if it's not a Youtube or Spotify URL
+else
+  echo "."
+  echo "."
+  echo "."
+  echo "."
+  echo "."
+  echo "termux-downloader"
+  echo "URL type not Youtube or Spotify"
+  echo "Please choose manually"
+  echo "----------------------------------------"
+  echo "1) Download Video (/downloads/Video)"
+  echo ""
+  echo "2) Download Audio (/downloads/Audio)"
+  echo ""
+  echo "3) Download Webpage (/downloads)"
+  echo "   (Save websites for offline view)"
+  echo "----------------------------------------"
+  echo ""
+  echo "Enter value:"
+  read n
+  if [ "$n" == '1' ]; then
+  echo "Quality(144,240,360,480,720,1080):"
+  read qty
+  echo "Downloading video"
+  [ ! -d "/data/data/com.termux/files/home/storage/downloads/Video" ] && mkdir "/data/data/com.termux/files/home/storage/downloads/Video"
+  youtube-dl -c -i --no-mtime "$URL" -o "/data/data/com.termux/files/home/storage/downloads/Video/%(title)s.%(ext)s" -f "best[height<="$qty"]"
+  else
+  if [ "$n" == '2' ]; then
+  echo "Downloading Audio"
+  [ ! -d "/data/data/com.termux/files/home/storage/downloads/Audio" ] && mkdir "/data/data/com.termux/files/home/storage/downloads/Audio"
+  youtube-dl -x --embed-thumbnail --audio-format mp3 -c -i "$URL" --cookies  ~/cookies -o "/data/data/com.termux/files/home/storage/downloads/Audio/%(title)s.%(ext)s"
+  else
+  if [ "$n" == '3' ]; then
+  echo "Downloading"
+  wget -P "./storage/downloads/" -c --mirror  --recursive --no-clobber  --page-requisites --html-extension --convert-links -e robots=off --restrict-file-names=windows --no-parent "$URL"
+  else
+  echo "Terminating due to invalid input."
+  fi
+  fi
+  fi
+fi
+read -n 1 -s -p "Press any key to exit..."
