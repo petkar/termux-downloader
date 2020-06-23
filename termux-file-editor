@@ -1,9 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
+#create tempfile to redirect to termux-url-opener
+URL=$(sed -n 2p $1)
+~/bin/termux-url-opener $URL
 
-URL=$(echo "$@" |grep -oP 'http.?://\S+')
-echo "$URL"
-
-if [ ! "$URL" == "" ]; then
-    ~/bin/termux-url-opener $URL
-    exit 0
-fi
+#delete tempfile
+rm tempfile
+rm $1
