@@ -2,6 +2,7 @@
 #create tempfile to redirect to termux-url-opener
 URL=$(sed -n 2p $1)
 ~/bin/termux-url-opener $URL
+
 #delete tempfile
 rm tempfile
 rm $1
