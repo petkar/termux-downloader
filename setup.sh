@@ -51,6 +51,9 @@ fi
 if [[ -e ~/bin/termux-url-opener ]]; then
   rm ~/bin/termux-url-opener
 fi 
+if [[ -e ~/bin/termux-file-editor ]]; then
+  rm ~/bin/termux-file-editor
+fi 
 #Copy termux-url-opener and termux-file-editor into ~/bin
 cp termux-url-opener ~/bin
 chmod +x ~/bin/termux-url-opener
