@@ -1,7 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 
-termux-setup-storage -y
+termux-setup-storage
+
 sleep 5s
 apt update && apt upgrade -y 
 
