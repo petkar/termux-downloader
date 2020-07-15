@@ -2,8 +2,8 @@
 
 
 termux-setup-storage
-
 sleep 5s
+
 apt update && apt upgrade -y 
 
 
@@ -63,7 +63,7 @@ chmod +x ~/bin/termux-file-editor
 
 
 echo "Setup Complete"
-echo "    To Download the Tracks/Videos:"
+echo "To Download the Tracks/Videos:"
 echo "    >Tap on 'Share' in Spotify/Youtube"
 echo "    >Select the 'Termux' app"
 read -n 1 -s -p "Press Any Key To Exit..."
