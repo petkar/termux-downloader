@@ -1,6 +1,6 @@
 spotify-downloader:
   dry_run: false
-  input_ext: opus
+  input_ext: automatic
   log_level: INFO
   manual: false
   no_encode: false
