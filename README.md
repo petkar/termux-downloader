@@ -20,7 +20,7 @@ A script to install and configure [spotdl](https://github.com/ritiek/spotify-dow
 
 * Install Termux from [Google Play Store](https://play.google.com/store/apps/details?id=com.termux) or [F-Droid](https://f-droid.org/en/packages/com.termux/)
 
-* This downloader can be installed by launching Termux and simply running the next line inside the app.
+* This downloader can be installed by launching Termux and running the next line inside the app.
 
 ```
 pkg install git -y; git clone https://github.com/petkar/termux-downloader.git; cd termux-downloader; chmod +x setup.sh; ./setup.sh && exit
