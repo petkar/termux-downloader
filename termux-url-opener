@@ -10,7 +10,7 @@ if [[ $URL == *"open.spotify.com"* ]] ; then
   if [[ $URL == *"playlist"* ]]; then
     echo "Downloading Playlist"
     spotdl --playlist "$URL" --write-to  "./.spotdl_playlist.txt"
-    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --list "./.spotdl_playlist.txt" -q best -i opus --output-ext mp3 --overwrite skip
+    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --list "./.spotdl_playlist.txt" -q best --output-ext mp3 --overwrite skip
     rm -f "./.spotdl_playlist.txt"
   fi
   if [[ $URL == *"track"* ]]; then
@@ -20,7 +20,7 @@ if [[ $URL == *"open.spotify.com"* ]] ; then
   if  [[ $URL == *"album"* ]]; then
     echo "Downloading Album"
     spotdl --album "$URL" --write-to  "./.spotdl_album.txt"
-    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --list "./.spotdl_album.txt" -q best -i opus --output-ext mp3 --overwrite skip
+    spotdl --output-file "/data/data/com.termux/files/home/storage/shared/Music/{artist} - {track-name}.{output-ext}" --list "./.spotdl_album.txt" -q best --output-ext mp3 --overwrite skip
     rm -f "./.spotdl_album.txt"
   fi
 elif  [[ $URL == *"youtu.be"* || $URL == *"youtube.com"* ]]; then
