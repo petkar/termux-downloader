@@ -12,7 +12,7 @@ A script to install and configure [spotdl](https://github.com/ritiek/spotify-dow
 * **Youtube**
   * Open the desired Youtube video. Launch the "Share" option and select Termux. The downloaded file(s) will appear in the default 'downloads' directory.
 * **Spotify**
-  * Open the desired Spotify track/album/playlist. Launch the "Share" option, select "Other" look for Termux. The file(s) will be downloaded to the default 'Music' directory.
+  * Open the desired Spotify track/album/playlist. Launch the "Share" option, select "Other" and look for Termux. The file(s) will be downloaded to the default 'Music' directory.
 * **Webpages** (Recursive)
   * Share the webpage from the browser into Termux. The webpages(s) will be downloaded to the 'downloads' directory.
 
