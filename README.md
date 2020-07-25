@@ -1,7 +1,7 @@
 
 # termux-downloader
 
-A script to install and configure [spotdl](https://github.com/ritiek/spotify-downloader) and [youtube-dl](https://github.com/ytdl-org/youtube-dl) to download music and videos in Android using the [Termux App](https://play.google.com/store/apps/details?id=com.termux).
+A simple bash script to install and configure [spotdl](https://github.com/ritiek/spotify-downloader) and [youtube-dl](https://github.com/ytdl-org/youtube-dl) to download music and videos in Android using the [Termux App](https://play.google.com/store/apps/details?id=com.termux).
 
 * Download Spotify songs or albums with metadata.
 * Download videos from Youtube or other video platforms.
