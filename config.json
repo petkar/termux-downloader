@@ -1,0 +1,7 @@
+{
+    "output": "{artists} - {title}.{output-ext}",
+    "format": "mp3",
+    "overwrite": "skip",
+    "log_level": "INFO",
+    "threads": 4
+}

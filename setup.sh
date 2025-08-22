@@ -11,38 +11,38 @@ apt update && apt upgrade -y
 pkg install python ffmpeg -y 
 
 
-#Install youtube-dl and spotdl
-pip install -U youtube-dl  
+#Install yt-dlp and spotdl
+pip install -U yt-dlp
 pip install -U spotdl
 
 
-#Youtube-dl configuration
-if [[ ! -d /data/data/com.termux/files/home/storage/downloads/Youtube ]]; then
-  mkdir /data/data/com.termux/files/home/storage/downloads/Youtube
-fi 
+#yt-dlp configuration
+if [[ ! -d $HOME/storage/downloads/Youtube ]]; then
+  mkdir -p $HOME/storage/downloads/Youtube
+fi
 #For config file
-if [[ ! -d ~/.config/youtube-dl ]]; then
-  mkdir -p ~/.config/youtube-dl  
-fi 
-#Create youtube-dl config & backup
-if [[ -e /data/data/com.termux/files/home/.config/youtube-dl/config ]]; then
-  mv ~/.config/youtube-dl/config ~/.config/youtube-dl/config.backup
-fi 
-cp config ~/.config/youtube-dl/
+if [[ ! -d $HOME/.config/yt-dlp ]]; then
+  mkdir -p $HOME/.config/yt-dlp
+fi
+#Create yt-dlp config & backup
+if [[ -e $HOME/.config/yt-dlp/config ]]; then
+  mv $HOME/.config/yt-dlp/config $HOME/.config/yt-dlp/config.backup
+fi
+cp config $HOME/.config/yt-dlp/
 
 
 #spotdl configuration
-if [[ ! -d /data/data/com.termux/files/home/storage/shared/Music ]]; then
-  mkdir /data/data/com.termux/files/home/storage/shared/Music
-fi 
+if [[ ! -d $HOME/storage/shared/Music ]]; then
+  mkdir -p $HOME/storage/shared/Music
+fi
 #Create spotdl config and backup
-if [[ -e /data/data/com.termux/files/home/.config/spotdl/config.yml ]]; then
-  mv ~/.config/spotdl/config.yml ~/.config/spotdl/config.backup
-fi 
-if [[ ! -d /data/data/com.termux/files/home/.config/spotdl ]]; then
-  mkdir /data/data/com.termux/files/home/.config/spotdl
-fi 
-cp config.yml ~/.config/spotdl/config.yml
+if [[ -e $HOME/.spotdl/config.json ]]; then
+  mv $HOME/.spotdl/config.json $HOME/.spotdl/config.backup
+fi
+if [[ ! -d $HOME/.spotdl ]]; then
+  mkdir -p $HOME/.spotdl
+fi
+cp config.json $HOME/.spotdl/config.json
 
 
 #Create bin folder for termux-url-opener and termux-file-editor
