@@ -1,27 +1,78 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Get the URL
+# --- Configuration ---
+CONFIG_FILE="$HOME/.spotdl/config.json"
+OUTPUT_CAPTURE_FILE=$(mktemp)
+
+# --- Functions ---
+get_config() {
+  jq -r "$1" "$CONFIG_FILE"
+}
+
+download_with_yt_dlp() {
+  local url=$1
+  local path=$2
+  local output_template=$3
+  local format=$4
+
+  echo "Downloading with yt-dlp to: $path"
+  # Redirect stderr to log and stdout to capture file
+  {
+    echo -e "\n--- Log entry: $(date) ---"
+    yt-dlp --print filename --format "$format" -o "$path/$output_template" "$url"
+  } 2>> "$LOG_FILE" 1> "$OUTPUT_CAPTURE_FILE"
+}
+
+# --- Load Config ---
+echo "Loading configuration..."
+LOG_FILE=$(get_config '.general.log_file')
+SPOTIFY_PATH=$(get_config '.general.paths.spotify')
+YOUTUBE_PATH=$(get_config '.general.paths.youtube')
+DEFAULT_PATH=$(get_config '.general.paths.default')
+YTDLP_FORMAT=$(get_config '.yt-dlp.format')
+YTDLP_OUTPUT=$(get_config '.yt-dlp.output')
+
+# --- Main Script ---
 URL=$1
-echo "Opening URL"
+echo "Received URL: $URL"
 
-# Cheks if it's a Youtube or Spotify URL and downloads it
-if [[ $URL == *"open.spotify.com"* ]] ; then
-  echo "Spotify link detected"
-  spotdl "$URL"
-elif  [[ $URL == *"youtu.be"* || $URL == *"youtube.com"* ]]; then
-  echo 'Downloading Video'
-  yt-dlp -c -i --no-mtime "$URL" -o "$HOME/storage/downloads/Youtube/%(title)s.%(ext)s"
+# Expand tilde to HOME directory
+SPOTIFY_PATH="${SPOTIFY_PATH/\~/$HOME}"
+YOUTUBE_PATH="${YOUTUBE_PATH/\~/$HOME}"
+DEFAULT_PATH="${DEFAULT_PATH/\~/$HOME}"
+LOG_FILE="${LOG_FILE/\~/$HOME}"
 
-# Runs if it's not a Youtube or Spotify URL
-else
-  echo "URL type not Youtube or Spotify, attempting to download with yt-dlp"
-  yt-dlp -c -i --no-mtime "$URL" -o "$HOME/storage/downloads/%(title)s.%(ext)s"
-fi
+# Ensure download directories exist
+mkdir -p "$SPOTIFY_PATH" "$YOUTUBE_PATH" "$DEFAULT_PATH"
 
+# Logic to handle downloads
+case "$URL" in
+  *open.spotify.com*)
+    echo "Spotify link detected. Downloading to: $SPOTIFY_PATH"
+    {
+      echo -e "\n--- Log entry: $(date) ---"
+      cd "$SPOTIFY_PATH" && spotdl "$URL"
+    } 2>> "$LOG_FILE" 1> "$OUTPUT_CAPTURE_FILE"
+    ;;
+  *youtu.be*|*youtube.com*)
+    download_with_yt_dlp "$URL" "$YOUTUBE_PATH" "$YTDLP_OUTPUT" "$YTDLP_FORMAT"
+    ;;
+  *)
+    echo "Generic URL detected. Downloading with yt-dlp."
+    download_with_yt_dlp "$URL" "$DEFAULT_PATH" "$YTDLP_OUTPUT" "$YTDLP_FORMAT"
+    ;;
+esac
+
+# --- Exit ---
 if [ $? -eq 0 ]; then
     echo "Download successful!"
+    echo "--- Downloaded Files ---"
+    cat "$OUTPUT_CAPTURE_FILE"
+    echo "------------------------"
 else
     echo "Download failed. Please check the URL and your connection."
+    echo "Check log file for details: $LOG_FILE"
 fi
 
+rm "$OUTPUT_CAPTURE_FILE"
 read -n 1 -s -p "Press any key to exit..."
