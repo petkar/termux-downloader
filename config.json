@@ -1,7 +1,21 @@
 {
+  "general": {
+    "log_file": "~/termux-downloader.log",
+    "paths": {
+      "spotify": "~/storage/shared/Music",
+      "youtube": "~/storage/downloads/Youtube",
+      "default": "~/storage/downloads"
+    }
+  },
+  "spotdl": {
     "output": "{artists} - {title}.{output-ext}",
     "format": "mp3",
     "overwrite": "skip",
     "log_level": "INFO",
     "threads": 4
+  },
+  "yt-dlp": {
+    "format": "best[height<=?720]",
+    "output": "%(title)s.%(ext)s"
+  }
 }

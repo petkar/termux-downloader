@@ -8,7 +8,7 @@ apt update && apt upgrade -y
 
 
 #Install required packages
-pkg install python ffmpeg -y 
+pkg install python ffmpeg jq -y
 
 
 #Install yt-dlp and spotdl
@@ -16,26 +16,12 @@ pip install -U yt-dlp
 pip install -U spotdl
 
 
-#yt-dlp configuration
-if [[ ! -d $HOME/storage/downloads/Youtube ]]; then
-  mkdir -p $HOME/storage/downloads/Youtube
-fi
-#For config file
-if [[ ! -d $HOME/.config/yt-dlp ]]; then
-  mkdir -p $HOME/.config/yt-dlp
-fi
-#Create yt-dlp config & backup
-if [[ -e $HOME/.config/yt-dlp/config ]]; then
-  mv $HOME/.config/yt-dlp/config $HOME/.config/yt-dlp/config.backup
-fi
-cp config $HOME/.config/yt-dlp/
+# Create download directories by parsing config.json
+echo "Creating download directories..."
+eval mkdir -p $(jq -r '.general.paths[]' config.json)
 
-
-#spotdl configuration
-if [[ ! -d $HOME/storage/shared/Music ]]; then
-  mkdir -p $HOME/storage/shared/Music
-fi
-#Create spotdl config and backup
+# spotdl configuration
+# Create spotdl config and backup
 if [[ -e $HOME/.spotdl/config.json ]]; then
   mv $HOME/.spotdl/config.json $HOME/.spotdl/config.backup
 fi

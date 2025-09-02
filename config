@@ -1,3 +1,0 @@
---no-mtime
--o $HOME/storage/downloads/Youtube/%(title)s.%(ext)s
--f "best[height<=480]"
